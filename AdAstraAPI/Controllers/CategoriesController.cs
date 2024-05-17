@@ -18,6 +18,4 @@ namespace AdAstraAPI.Controllers
             return await DAL.CategoryManager.GetOneCategory(id);
         }
     }
-
-
 }
