@@ -1,6 +1,7 @@
 
 using AdAstraAPI.DAL;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdAstraAPI
 {
@@ -21,15 +22,20 @@ namespace AdAstraAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
+
             var configuration = builder.Configuration;
+            var connectionString = builder.Configuration.GetConnectionString("AdAstraContextConnection");
+            builder.Services.AddDbContext<DAL.AdAstraDbContext>(options => options.UseSqlServer(connectionString));
+
             var optionsBuilder = new DbContextOptionsBuilder<AdAstraDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("AdAstraContextConnection"));
+            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("AdAstraContextConnection"));
 
             var app = builder.Build();
 
-            var context = new AdAstraDbContext(optionsBuilder.Options);
-            CategoryData.Initialize(context);
-
+            //var context = new AdAstraDbContext(optionsBuilder.Options);
+            //CategoryData categoryData = new CategoryData();
+            //categoryData.Initialize(context);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

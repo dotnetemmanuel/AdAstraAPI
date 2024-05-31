@@ -2,16 +2,16 @@
 
 namespace AdAstraAPI.DAL
 {
-    public static class CategoryData
+    public class CategoryData
     {
-        private static AdAstraDbContext _context;
+        private AdAstraDbContext _context;
 
-        public static void Initialize(AdAstraDbContext context)
+        public CategoryData(AdAstraDbContext context)
         {
             _context = context;
         }
 
-        public static async Task<IEnumerable<Models.Category>> GetCategoriesFromDbAsync()
+        public async Task<IEnumerable<Models.Category>> GetCategoriesFromDbAsync()
         {
             List<Models.Category> categories;
 
@@ -19,7 +19,7 @@ namespace AdAstraAPI.DAL
             {
                 throw new InvalidOperationException("CategoryData is not initialized. Call Initialize method first.");
             }
-            categories = await _context.Categories.Include(c =>c.ParentCategory).Include(c => c.Creator).Include(c => c.Subgategories).Include(c => c.Posts).ToListAsync();
+            categories = await _context.Categories.Include(c => c.ParentCategory).Include(c => c.Creator).Include(c => c.Subgategories).Include(c => c.Posts).ToListAsync();
             return categories;
         }
     }
